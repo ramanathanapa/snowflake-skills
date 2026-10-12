@@ -1,0 +1,17 @@
+schema_version: '1.1'
+name: warehouse-bill-doubled
+description: Cost triage should measure first, then auto-suspend, right-size, cap and isolate.
+tags: [cost]
+execution:
+  max_turns: 10
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: |
+    Our Snowflake bill doubled this month. We have one MEDIUM warehouse shared by BI dashboards, our ELT jobs and a Streamlit app. What should I check and change first?
+graders:
+- {name: auto-suspend, type: regex, pattern: 'auto.?suspend', flags: i}
+- name: criteria
+  type: llm
+  criteria: |
+    PASS if the answer starts by measuring where credits go (for example WAREHOUSE_METERING_HISTORY, METERING_DAILY_HISTORY or QUERY_HISTORY), and recommends at least three of: a short AUTO_SUSPEND such as 60 seconds, right-sizing or starting smaller, a resource monitor or budget with a hard limit, separate warehouses per workload, caching in the Streamlit app, a statement timeout.
+    FAIL if the main recommendation is to scale the warehouse up or buy more credits, or if it gives no way to find where the credits went.
+- {name: skill-fired, type: tool_used, tool: Skill, input_match: '"skill"\s*:\s*"(?:[\w-]+:)?snowflake-data-engineering"'}

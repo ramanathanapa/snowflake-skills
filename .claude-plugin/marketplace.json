@@ -1,0 +1,19 @@
+{
+  "name": "snowflake-skills",
+  "description": "Open-source Claude skills for Snowflake data and platform engineering.",
+  "owner": {
+    "name": "snowflake-skills contributors"
+  },
+  "plugins": [
+    {
+      "name": "snowflake-data-engineering",
+      "source": "./plugins/snowflake-data-engineering",
+      "description": "Snowflake data engineering playbook: ingestion, modeling and SQL, pipelines, cost, security, Terraform and CI/CD, data quality, Python, Cortex AI, Streamlit, and scoped reviews."
+    },
+    {
+      "name": "snowflake-platform-engineering",
+      "source": "./plugins/snowflake-platform-engineering",
+      "description": "Bring up and run a Snowflake platform: blueprint-driven phases for accounts, identity, security baseline, access model, FinOps, observability, governance, resilience and team onboarding, with SQL readiness checks."
+    }
+  ]
+}

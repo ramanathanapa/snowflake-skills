@@ -1,0 +1,49 @@
+name: evals
+
+# Manual only: runs call the model and cost money. Requires the ANTHROPIC_API_KEY repository secret.
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: Runs per case per arm
+        default: "1"
+      threshold:
+        description: Minimum with-plugin score per case (0-1)
+        default: "0.8"
+
+permissions:
+  contents: read
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        plugin: [snowflake-data-engineering, snowflake-platform-engineering]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Validate marketplace and plugin
+        run: claude plugin validate . --strict && claude plugin validate "plugins/${{ matrix.plugin }}" --strict
+      - name: Run evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RUNS: ${{ inputs.runs }}
+          THRESHOLD: ${{ inputs.threshold }}
+          PLUGIN: ${{ matrix.plugin }}
+        run: >
+          claude plugin eval "plugins/$PLUGIN" --trust-plugin --runs "$RUNS" --threshold "$THRESHOLD"
+          --model claude-sonnet-5-5 --judge-model claude-haiku-5-5
+          --json "evals-$PLUGIN.json" --no-publish --max-cost-usd 10
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results-${{ matrix.plugin }}
+          path: evals-${{ matrix.plugin }}.json
+          if-no-files-found: ignore

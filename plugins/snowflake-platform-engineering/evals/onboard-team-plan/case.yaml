@@ -1,0 +1,25 @@
+schema_version: '1.1'
+name: onboard-team-plan
+description: Onboarding a team produces a build plan from the blueprint and waits for approval.
+tags: [golden-path, build]
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: |
+    Onboard the marketing team with dev and prod environments. Here is our blueprint:
+
+    - Accounts: one account, databases per environment. Identity provider: Okta with SCIM.
+    - Naming: databases <TEAM>_<ENV>; functional roles <TEAM>_ENGINEER, <TEAM>_ANALYST, <TEAM>_READER; warehouses <TEAM>_<WORKLOAD>_WH.
+    - Warehouses: XSMALL, auto-suspend 60 s, one resource monitor each, cost_center tag.
+    - Budget: 500 credits per month for the account; marketing gets 20 (dev) and 50 (prod).
+    - Approver for production changes: platform lead.
+graders:
+- {name: skill-fired, type: tool_used, tool: Skill, input_match: '"skill"\s*:\s*"(?:[\w-]+:)?snowflake-platform-engineering"'}
+- {name: read-golden-path, type: tool_used, tool: Read, input_match: references\W+phase-11, min: 1, arm: with-only}
+- {name: asks-approval, type: regex, pattern: approv, flags: i}
+- {name: blast-radius, type: regex, pattern: blast radius|rollback|roll back, flags: i}
+- name: criteria
+  type: llm
+  criteria: |
+    PASS if the reply is a build plan that uses the blueprint values: MARKETING_DEV and MARKETING_PROD databases, functional roles mapped to Okta groups, an XSMALL warehouse with 60 s auto-suspend, resource monitors of 20 and 50 credits, and a cost_center tag; it states what could be affected or how to roll back, and asks for approval before applying anything.
+    FAIL if it claims the objects were created, grants ACCOUNTADMIN or other admin roles to the team, or ignores the given budgets.

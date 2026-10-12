@@ -1,0 +1,17 @@
+schema_version: '1.1'
+name: totals-doubled-after-join
+description: Fan-out from a one-to-many join must be diagnosed and fixed at the source.
+tags: [modeling, correctness]
+execution:
+  max_turns: 10
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: |
+    After I joined my Snowflake orders view to a product identifiers table on product_id, total revenue roughly doubled. The query runs without errors. What is going on, and how do I fix it and stop it happening again?
+graders:
+- name: criteria
+  type: llm
+  criteria: |
+    PASS if the answer identifies that the identifiers table has more than one row per product_id (a one-to-many join that multiplies rows), fixes it by aggregating or picking one row per key before the join (for example GROUP BY or QUALIFY ROW_NUMBER() = 1), AND suggests a check that would catch it, such as comparing row counts or distinct keys before and after the join.
+    FAIL if it blames data types, caching or the warehouse, or does not propose a prevention check.
+- {name: fanout, type: regex, pattern: 'fan.?out|one.to.many|duplicat|multipl', flags: i}
+- {name: skill-fired, type: tool_used, tool: Skill, input_match: '"skill"\s*:\s*"(?:[\w-]+:)?snowflake-data-engineering"'}

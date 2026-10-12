@@ -1,0 +1,19 @@
+schema_version: '1.1'
+name: scoped-security-check
+description: A security baseline check reads only phase 3 and points to its checks script.
+tags: [review, security, token-discipline]
+execution:
+  max_turns: 10
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: |
+    Check our Snowflake security baseline.
+graders:
+- {name: skill-fired, type: tool_used, tool: Skill, input_match: '"skill"\s*:\s*"(?:[\w-]+:)?snowflake-platform-engineering"'}
+- {name: read-phase-03, type: tool_used, tool: Read, input_match: references\W+phase-03, min: 1, arm: with-only}
+- {name: no-other-phases, type: tool_used, tool: Read, input_match: 'references\W+phase-(?!00|03)\d\d', min: 0, max: 0, arm: with-only}
+- {name: points-to-checks, type: regex, pattern: 03-security-baseline\.sql}
+- name: criteria
+  type: llm
+  criteria: |
+    PASS if the reply scopes the review to the security baseline (admins, network policy, authentication, password and session policies, PUBLIC grants), gives the user the phase 3 checks script or the queries to run (or asks for their results), and says which items it could not check without account access or a blueprint.
+    FAIL if it claims findings about the user's account without evidence, or reviews unrelated phases such as cost, delivery or resilience.

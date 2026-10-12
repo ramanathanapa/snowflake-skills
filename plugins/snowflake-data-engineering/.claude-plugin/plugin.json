@@ -1,0 +1,22 @@
+{
+  "name": "snowflake-data-engineering",
+  "displayName": "Snowflake Data Engineering",
+  "version": "1.0.0",
+  "description": "Snowflake data engineering playbook: ingestion, modeling and SQL, pipelines, cost, security, Terraform and CI/CD, data quality, Python, Cortex AI, Streamlit, and scoped reviews.",
+  "author": {
+    "name": "snowflake-skills contributors"
+  },
+  "homepage": "https://github.com/ramanathanapa/snowflake-skills",
+  "repository": "https://github.com/ramanathanapa/snowflake-skills",
+  "license": "MIT",
+  "keywords": [
+    "snowflake",
+    "data-engineering",
+    "sql",
+    "dbt",
+    "pipelines",
+    "cortex",
+    "streamlit",
+    "data-quality"
+  ]
+}

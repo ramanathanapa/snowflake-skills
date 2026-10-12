@@ -1,0 +1,12 @@
+schema_version: '1.1'
+name: data-question-no-trigger
+description: 'Negative case: a pipeline question must not trigger the platform skill.'
+tags: [triggering]
+execution:
+  max_turns: 6
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: |
+    My COPY INTO loaded 0 rows when I reran it for the same staged files. Why?
+graders:
+- {name: no-skill, type: tool_used, tool: Skill, input_match: '"skill"\s*:\s*"(?:[\w-]+:)?snowflake-platform-engineering"', min: 0, max: 0, arm: both}
+- {name: answer, type: regex, pattern: FORCE|load metadata|already loaded, flags: i}

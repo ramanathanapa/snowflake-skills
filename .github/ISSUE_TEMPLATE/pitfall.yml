@@ -1,0 +1,30 @@
+name: New pitfall
+description: Share a real problem others will hit, as symptom -> cause -> fix
+labels: ["pitfall"]
+body:
+  - type: textarea
+    id: symptom
+    attributes:
+      label: Symptom
+      description: What you saw (wrong numbers, an error message, unexpected cost)
+    validations:
+      required: true
+  - type: textarea
+    id: cause
+    attributes:
+      label: Cause
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Fix and how to prevent it
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Loading, Modeling and SQL, Pipelines, Performance and cost, Security, IaC and CI/CD, Testing, Python, Cortex AI and apps, Other]
+    validations:
+      required: true

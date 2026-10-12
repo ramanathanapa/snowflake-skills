@@ -1,0 +1,28 @@
+name: Inaccurate or outdated guidance
+description: Report a fact, command or recommendation that is wrong or out of date
+labels: ["accuracy"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: File and section
+      placeholder: references/loading.md, "COPY options worth knowing"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link to Snowflake documentation or release notes, or a reproducible query and its output. Remove account identifiers and any sensitive data.
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested correction

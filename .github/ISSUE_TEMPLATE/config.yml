@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security concern
+    url: https://github.com/ramanathanapa/snowflake-skills/security/advisories/new
+    about: Report unsafe guidance or exposed data privately.

@@ -1,0 +1,22 @@
+{
+  "name": "snowflake-platform-engineering",
+  "displayName": "Snowflake Platform Engineering",
+  "version": "1.0.0",
+  "description": "Bring up and run a Snowflake platform: blueprint-driven phases for accounts, identity, security baseline, access model, FinOps, observability, governance, resilience and team onboarding, with SQL readiness checks.",
+  "author": {
+    "name": "snowflake-skills contributors"
+  },
+  "homepage": "https://github.com/ramanathanapa/snowflake-skills",
+  "repository": "https://github.com/ramanathanapa/snowflake-skills",
+  "license": "MIT",
+  "keywords": [
+    "snowflake",
+    "platform-engineering",
+    "finops",
+    "rbac",
+    "sso",
+    "governance",
+    "disaster-recovery",
+    "landing-zone"
+  ]
+}
