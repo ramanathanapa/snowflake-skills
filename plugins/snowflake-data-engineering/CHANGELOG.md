@@ -3,6 +3,8 @@
 All notable changes to this plugin are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the plugin uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+### Added
+- Four checklist items from a planter-and-finder review round: table kind and time travel match the data (modeling), serving objects never read the raw layer (modeling), clustering keys are low-cardinality (performance and cost), and data that must not be stored is absent (security).
 
 ## [1.0.0] - 2026-10-11
 ### Added
