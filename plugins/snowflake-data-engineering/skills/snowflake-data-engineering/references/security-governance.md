@@ -103,5 +103,6 @@ FROM snowflake.account_usage.login_history WHERE event_timestamp >= DATEADD(day,
 - [ ] Few `ACCOUNTADMIN` holders, all with MFA; it is nobody's default role.
 - [ ] Readers see only the serving layer; `PUBLIC` holds nothing sensitive.
 - [ ] Sensitive columns masked, row-filtered, excluded or classified.
+- [ ] Data that must not be kept at all (card verification codes, full card numbers, passwords) is absent, not merely masked.
 - [ ] Network policy on service users; outbound access limited to named hosts.
 - [ ] All grants defined in code, with future grants.

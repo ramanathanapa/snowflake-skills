@@ -94,3 +94,4 @@ Small tables rarely need any of these. Measure first.
 - [ ] Serverless spend (pipes, tasks, Dynamic Tables, clustering, search optimization, AI) reviewed monthly.
 - [ ] Spend attributable by warehouse or query tag.
 - [ ] Old clones, scratch tables and long time travel on scratch data cleaned up.
+- [ ] Clustering keys are low-cardinality and justified by a query profile; no near-unique column (millisecond timestamp, UUID) in a key.

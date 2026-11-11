@@ -123,6 +123,8 @@ FROM raw.events e, LATERAL FLATTEN(INPUT => e.v:items) f;
 - [ ] `NOT IN` with nullable subqueries, window frames and `LIMIT` without `ORDER BY` have been checked.
 - [ ] `MERGE` sources are deduplicated; multi-statement DML that must be atomic runs in a transaction.
 - [ ] Tables with data are changed with `ALTER`, not `CREATE OR REPLACE`.
+- [ ] Table kind matches the data: transient and temporary only for data that can be rebuilt; system-of-record tables are permanent with time travel above 0.
+- [ ] Serving objects read only curated objects, never the raw layer.
 
 ## Metadata queries
 ```sql
